@@ -17,7 +17,7 @@ class Parseador(): #Parser de argumentos por linea de comandos
     def parsear(self):
         args = self.parser.parse_args()
         if args.modo == "mockup" and not args.rango:
-            self.parser.error("El argumento --rango es obligatorio cuando --modo tiene como valor'mockup'.")
+            self.parser.error("El argumento --rango es obligatorio cuando --modo tiene como valor 'mockup'.")
         return args
 
 if __name__ == "__main__":

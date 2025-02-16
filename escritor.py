@@ -2,7 +2,7 @@ import asyncio
 import logging
 import signal
 from nats.aio.client import Client as NATS
-import sensor_ficticio
+from sensor_ficticio import Sensor
 
 # Configuración del logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -12,7 +12,7 @@ class SensorEscritorNATS:
         self.server = server
         self.subject = subject
         self.nc = NATS()
-        self.sensorInfrarrojo = sensor_ficticio.Sensor(modo, min, max)
+        self.sensorInfrarrojo = Sensor(modo, min, max)
         self.running = True  # Variable para manejar la ejecución segura
 
     async def connect(self):
@@ -29,7 +29,6 @@ class SensorEscritorNATS:
             while self.running:
                 valoresInfrarrojo = self.sensorInfrarrojo.generador()
                 await self.nc.publish(self.subject, valoresInfrarrojo.tobytes())
-                logging.info(f"Enviando valores sensor Infrarrojo: {valoresInfrarrojo}")
                 await asyncio.sleep(1)
         except asyncio.CancelledError:
             logging.warning("Publicación cancelada.")
@@ -42,7 +41,7 @@ class SensorEscritorNATS:
         self.running = False
 
 async def main():
-    sensor = SensorEscritorNATS(modo="mockup")
+    sensor = SensorEscritorNATS(modo="real")
 
     # Manejo de señales para apagar correctamente
     loop = asyncio.get_running_loop()
