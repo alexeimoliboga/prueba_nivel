@@ -2,7 +2,7 @@ import sqlite3
 
 class Database: #Clase de creación, escritura y lectura de base de datos asociada
     def __init__(self, uripath="file:sensor_infrarrojo.sqlite?mode=rwc"):
-        self.conexion = sqlite3.connect(uripath,uri=True)
+        self.conexion = sqlite3.connect(uripath,uri=True,check_same_thread=False)
         self.cursor = self.conexion.cursor()
         self.create_table()
        
@@ -38,6 +38,5 @@ class Database: #Clase de creación, escritura y lectura de base de datos asocia
 
 if __name__ == "__main__":
     db = Database()
-    db.escritura([i for i in range(64)])
     db.lectura()
     db.close()

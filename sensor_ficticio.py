@@ -14,8 +14,3 @@ class Sensor(): #Clase de generación de datos del sensor
             datosSensor=np.full(64,self.orden,dtype=np.uint16)
             self.orden = (self.orden +1) % (2**16)
         return datosSensor
-    
-if __name__ == "__main__":
-    sensor=Sensor("mockup",0,1000)
-    valores=sensor.generador()
-    print(valores)
